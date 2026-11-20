@@ -20,6 +20,7 @@ env:
   # GNU archive container around the m68k-amigaos object.
   M68K_AR: ar
   M68K_CC: m68k-amigaos-gcc
+  M68K_LINKER: ${{ github.workspace }}/ports/amigaos/m68k-amigaos-gcc-wrapper.sh
   M68K_NM: m68k-amigaos-nm
   M68K_READELF: m68k-amigaos-readelf
   M68K_TOOLS: /opt/lumavault-tools/m68k-gcc16
@@ -59,5 +60,6 @@ jobs:
           command -v "${M68K_CC}"
           command -v "${M68K_NM}"
           command -v "${M68K_READELF}"
+          test -x "${M68K_LINKER}"
       - name: Build and inspect native port
         run: ports/amigaos/check.sh

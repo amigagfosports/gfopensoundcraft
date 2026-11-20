@@ -5,6 +5,7 @@ set -eu
 port=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 manifest="$port/Cargo.toml"
 cc=${M68K_CC:-m68k-linux-gnu-gcc}
+linker=${M68K_LINKER:-$cc}
 nm=${M68K_NM:-m68k-linux-gnu-nm}
 readelf=${M68K_READELF:-m68k-linux-gnu-readelf}
 
@@ -13,7 +14,7 @@ cargo test --manifest-path "$manifest"
 cargo clippy --manifest-path "$manifest" --all-targets -- -D warnings
 
 RUSTC_BOOTSTRAP=1 \
-RUSTFLAGS="-C target-cpu=M68040 -C target-feature=-isa-68881,-isa-68882 -C code-model=large -C linker=${cc} -C link-arg=-nostdlib -C link-arg=-Wl,-e,_start" \
+RUSTFLAGS="-C target-cpu=M68040 -C target-feature=-isa-68881,-isa-68882 -C code-model=large -C linker=${linker} -C link-arg=-nostdlib -C link-arg=-Wl,-e,_start" \
     cargo build --manifest-path "$manifest" --release \
     --target m68k-unknown-none-elf \
     -Zbuild-std=core,alloc,compiler_builtins \
