@@ -2,7 +2,7 @@
 
 **Stage: pre-alpha** · next: alpha, ~5% and ~110–180 h away (the alpha gate's three failing workflows)
 
-> **Last reviewed:** 2026-11-14 · **Last updated:** 2026-11-20 · **Change:** minor (native AmigaOS 3.x port foundation and bounded session subset linked; no readiness change until it runs on AmigaOS) · **Target:** Avid Pro Tools Ultimate 2026.4.1
+> **Last reviewed:** 2026-11-14 · **Last updated:** 2026-11-20 · **Change:** minor (native AmigaOS 3.x port foundation plus bounded session and MIDI subsets linked; no readiness change until it runs on AmigaOS) · **Target:** Avid Pro Tools Ultimate 2026.4.1
 
 SoundCraft is a clean-room, pure-Rust digital audio workstation that aims at full parity with
 Avid Pro Tools, and then beyond it: faster, open, scriptable and agent-controllable. This page is
@@ -129,9 +129,10 @@ mutated and truncated movies. Field reports from the first public week are track
   the native boundaries at GFOpenLayout/OpenGadTools, AHI/OpenAudio, CAMD,
   GFOpenDataTypes, AkikoPlus OpenSynth and GFOpenUp.  A following stacked
   slice adds a bounded `no_std` session index with the canonical track kinds,
-  sample-rate range, stable track ids and basic mixer state.  It has not run
-  on AmigaOS and does not yet include the DAW UI, engine or device adapters,
-  so readiness percentages are unchanged.
+  sample-rate range, stable track ids and basic mixer state; another adds the
+  960 PPQ note/controller sequence subset with validation and timeline
+  queries.  It has not run on AmigaOS and does not yet include the DAW UI,
+  engine or device adapters, so readiness percentages are unchanged.
 - **2026-11-18 (MIDI input):** MIDI input devices: keyboards play record-enabled and input-monitored MIDI and instrument tracks live and are recorded into MIDI clips, with a device and channel choice per track. The device switches are in the MIDI inputs section of Setup › Playback Engine (Setup › MIDI › MIDI Input Devices opens the same window) and are kept in the app preferences, per computer, not in the session. Controllers, pitch bend and aftertouch reach the instrument live; a pitch held on two devices or channels sounds until both release it; a full input queue releases the notes of its device and marks the take incomplete. On Linux, live play was checked with a hardware keyboard (Akai MPK mini 3) and recording with a virtual one; macOS and Windows are type-checked only, and there is no MIDI input on FreeBSD or the web. Guide: `docs/midi-input.md`. No readiness percentage change until that is measured.
 - **2026-11-14:** AAF import supports a strict CompositionMob SourceClip/Filler subset with external mono/stereo PCM WAV media, editable clips and handles, relink and absolute or relative timecode mapping. The reader shares cached object properties, caps retained property data at 128 MiB and rejects duplicate local references before expansion. AAF export, OMF and `.ptx` remain missing. No readiness percentage change.
 - **2026-11-09:** A built-in Frequency Shifter (`freq_shifter`) moves every frequency in the signal by the same number of hertz, from 0.01 Hz to 5 kHz: up, down, both ways at once, or down on the left and up on the right of a stereo track. The unwanted sideband stays at least 100 dB down from 20 Hz to 20 Hz below Nyquist at 44.1 to 96 kHz. Feedback sends the output round again for a trail of further shifts, Mix blends in the dry signal, and every change glides without a click. No readiness percentage change.
