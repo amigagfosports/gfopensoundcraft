@@ -49,6 +49,12 @@ jobs:
       - name: Verify toolchain
         run: |
           rustc --version --verbose
+          if ! command -v m68k-linux-gnu-gcc >/dev/null 2>&1; then
+            echo "m68k-linux-gnu tools are not on PATH; compiler bundle contents:" >&2
+            find "${M68K_TOOLS}" -maxdepth 4 -type f \
+              \( -name '*gcc*' -o -name '*nm*' -o -name '*readelf*' \) -print >&2
+            exit 1
+          fi
           command -v m68k-linux-gnu-gcc
           command -v m68k-linux-gnu-nm
           command -v m68k-linux-gnu-readelf
