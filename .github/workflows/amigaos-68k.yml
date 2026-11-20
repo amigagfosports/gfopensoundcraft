@@ -16,6 +16,7 @@ permissions:
   contents: read
 
 env:
+  M68K_AR: m68k-amigaos-ar
   M68K_CC: m68k-amigaos-gcc
   M68K_NM: m68k-amigaos-nm
   M68K_READELF: m68k-amigaos-readelf
@@ -52,6 +53,7 @@ jobs:
       - name: Verify toolchain
         run: |
           rustc --version --verbose
+          command -v "${M68K_AR}"
           command -v "${M68K_CC}"
           command -v "${M68K_NM}"
           command -v "${M68K_READELF}"
