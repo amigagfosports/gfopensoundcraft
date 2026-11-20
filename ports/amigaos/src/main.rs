@@ -6,12 +6,16 @@
 extern crate alloc;
 
 #[cfg(any(target_arch = "m68k", test))]
+pub mod midi;
+#[cfg(any(target_arch = "m68k", test))]
 mod platform;
 #[cfg(any(target_arch = "m68k", test))]
 pub mod session;
 
 #[cfg(target_arch = "m68k")]
 use alloc::vec::Vec;
+#[cfg(target_arch = "m68k")]
+use midi::{Note, Sequence};
 #[cfg(target_arch = "m68k")]
 use platform::{BINDINGS, STARTUP_LINES};
 #[cfg(target_arch = "m68k")]
@@ -35,7 +39,17 @@ pub extern "C" fn gf_amiga_main(_args: *const u8, _length: i32) -> i32 {
         }
         runtime.put_str(c"portable model: audio and MIDI tracks ready\n");
 
-        if allocation_proof.len() == BINDINGS.len() && session.track_count() == 2 && session.sample_rate_hz() == 48_000 { 0 } else { 20 }
+        let mut midi = Sequence::with_event_limit(64);
+        if midi.add_note(Note { pitch: 60, velocity: 100, release_velocity: 64, channel: 0, start: 0, length: i64::from(midi::PPQ) }).is_err() {
+            return 20;
+        }
+        runtime.put_str(c"sequencer model: one quarter-note ready\n");
+
+        if allocation_proof.len() == BINDINGS.len() && session.track_count() == 2 && session.sample_rate_hz() == 48_000 && midi.event_count() == 1 {
+            0
+        } else {
+            20
+        }
     })
 }
 
