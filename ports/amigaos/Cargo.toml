@@ -11,7 +11,7 @@ repository = "https://github.com/AmigaGFOSPorts/gfopensoundcraft"
 publish = false
 
 [dependencies]
-amiga-runtime = { git = "https://github.com/DalsinAI/gfopenrust", rev = "b918e317775099d6f34072a6614234c39e209d58" }
+amiga-runtime = { git = "https://github.com/DalsinAI/gfopenrust", rev = "1fbf1c8f34dc68b199b06c32401d3eadab78492b" }
 
 [profile.release]
 opt-level = "s"
