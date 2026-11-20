@@ -16,8 +16,6 @@ permissions:
   contents: read
 
 env:
-  CARGO_HOME: ${{ runner.temp }}/cargo
-  RUSTUP_HOME: ${{ runner.temp }}/rustup
   RUST_TOOLCHAIN: 1.98.1
 
 jobs:
@@ -33,6 +31,8 @@ jobs:
         env:
           RUSTUP_INIT_SHA256: 20a06e644b0d9bd2fbdbfd52d42540bdde820ea7df86e92e533c073da0cdd43c
         run: |
+          export CARGO_HOME="${RUNNER_TEMP}/cargo"
+          export RUSTUP_HOME="${RUNNER_TEMP}/rustup"
           curl --proto '=https' --tlsv1.2 --fail --location --show-error --silent \
             https://static.rust-lang.org/rustup/archive/1.28.2/x86_64-unknown-linux-gnu/rustup-init \
             --output "${RUNNER_TEMP}/rustup-init"
@@ -40,6 +40,8 @@ jobs:
           chmod 0755 "${RUNNER_TEMP}/rustup-init"
           "${RUNNER_TEMP}/rustup-init" --yes --no-modify-path --profile minimal \
             --default-toolchain "${RUST_TOOLCHAIN}"
+          echo "CARGO_HOME=${CARGO_HOME}" >> "${GITHUB_ENV}"
+          echo "RUSTUP_HOME=${RUSTUP_HOME}" >> "${GITHUB_ENV}"
           echo "${CARGO_HOME}/bin" >> "${GITHUB_PATH}"
           "${CARGO_HOME}/bin/rustup" component add rust-src rustfmt clippy
       - name: Verify toolchain
