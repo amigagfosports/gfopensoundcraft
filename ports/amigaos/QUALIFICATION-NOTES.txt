@@ -1,0 +1,31 @@
+GFOpenSoundCraft 0.1.0 native qualification build for AmigaOS 3.x
+=================================================================
+
+STATUS: NATIVE QUALIFICATION BUILD; NOT A RELEASE CANDIDATE. Native startup,
+GFOpenSynth open/reset/message/close and clean exit passed in the isolated
+68040 lab on 20 November 2026. The missing editor and transport remain release
+gates.
+
+Requirements
+------------
+- AmigaOS 3.x
+- 68040 CPU
+- gfopensynth.library version 1 or newer
+
+Included
+--------
+- native Amiga Hunk executable
+- bounded session and MIDI sequence models
+- GFOpenSynth reset, note-on, note-off and all-notes-off smoke path
+
+This qualification build has no editor window, transport or file I/O. Those
+remain release gates rather than claimed features.
+
+Qualification receipt
+---------------------
+- GFOpenRust revision: f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d
+- Hunk SHA-256: bc2caf9546d370ad1e8bf44e237efaedddc78d52f7b07902ffac8988e30f30e8
+- Lab: t1-vectorcraft-20261120 (isolated scratch copy, 68040/FPU)
+- Result: AmigaDOS RC=0
+
+License: MIT OR Apache-2.0

@@ -8,8 +8,9 @@ The first milestone proves the platform boundary and GFOpenRust linkage:
 
 - AmigaDOS D0/A0 startup and the Exec-pool allocator come from GFOpenRust,
   pinned by commit;
-- the output is a static, big-endian 32-bit m68k ELF with no unresolved
-  symbols or relocations;
+- the developer gate emits a static, big-endian 32-bit m68k ELF, while the
+  qualification gate emits a native Amiga Hunk executable; both have no
+  unresolved symbols;
 - application code contains no unsafe block; the one exported entry attribute
   is isolated and documented;
 - the six platform services are assigned before their implementations begin.
@@ -27,6 +28,13 @@ Run the complete current gate with:
 
 ```sh
 ports/amigaos/check.sh
+```
+
+With an Amiga-capable binutils prefix, build the native qualification drawer
+and LHA archive with:
+
+```sh
+ports/amigaos/package-qualification.sh /path/to/m68k-amigaos-bin
 ```
 
 The current executable now carries the first bounded session-model subset: a
@@ -47,7 +55,9 @@ validated `gfopensynth.library` version 1 messages.  Its linked smoke path
 opens and resets the library, sends one note on/off pair, sends all-notes-off,
 and closes the synth through GFOpenRust's lifetime-bound safe API.  AkikoPlus
 selection and the 68k/AHI fallback remain the library's responsibility.  This
-is compile/link coverage; audible native output still needs an Amiga lab run.
+path passed with AmigaDOS `RC=0` in an isolated 68040/FPU lab on 20 November
+2026.  The receipt is in `evidence/native-68040-q1-20261120.txt`; it proves the
+library message path, not audible output.
 
 The port does not yet claim the egui interface, timed transport playback,
 audio clips, SMF file I/O, MIDI device I/O or session file I/O have been

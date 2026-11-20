@@ -144,7 +144,7 @@ impl Session {
         let id = TrackId(self.next_id.max(1));
         let next_id = id.0.checked_add(1).ok_or(SessionError::IdExhausted)?;
         let name = copy_name(name)?;
-        self.tracks.try_reserve(1).map_err(|_| SessionError::OutOfMemory)?;
+        self.tracks.try_reserve_exact(1).map_err(|_| SessionError::OutOfMemory)?;
         self.tracks.push(Track { id, name, kind, muted: false, solo: false, record_armed: false });
         self.next_id = next_id;
         Ok(id)
@@ -189,7 +189,7 @@ fn copy_name(value: &str) -> Result<String, SessionError> {
         return Err(SessionError::NameTooLong);
     }
     let mut copied = String::new();
-    copied.try_reserve(value.len()).map_err(|_| SessionError::OutOfMemory)?;
+    copied.try_reserve_exact(value.len()).map_err(|_| SessionError::OutOfMemory)?;
     copied.push_str(value);
     Ok(copied)
 }
