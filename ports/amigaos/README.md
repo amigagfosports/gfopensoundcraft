@@ -42,8 +42,15 @@ The sequencer-data subset uses the same 960 PPQ note and controller fields as
 per-sequence event ceiling capped at 65,536.  The linked smoke path creates a
 quarter-note sequence through the native allocator.
 
-The port does not yet claim the egui interface, playback engine, audio clips,
-SMF file I/O, MIDI device I/O or session file I/O have been ported.  The next
-slices are the native window/event adapter, AHI render callback and CAMD MIDI
-queue.  Release candidates must use GFOpenRust's pinned patched compiler and
-pass on AmigaOS.
+The native synth adapter translates every current note and controller kind to
+validated `gfopensynth.library` version 1 messages.  Its linked smoke path
+opens and resets the library, sends one note on/off pair, sends all-notes-off,
+and closes the synth through GFOpenRust's lifetime-bound safe API.  AkikoPlus
+selection and the 68k/AHI fallback remain the library's responsibility.  This
+is compile/link coverage; audible native output still needs an Amiga lab run.
+
+The port does not yet claim the egui interface, timed transport playback,
+audio clips, SMF file I/O, MIDI device I/O or session file I/O have been
+ported.  The next slices are the native window/event adapter, AHI render
+callback and CAMD MIDI queue.  Release candidates must use GFOpenRust's pinned
+patched compiler and pass on AmigaOS.

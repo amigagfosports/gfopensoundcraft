@@ -11,6 +11,8 @@ pub mod midi;
 mod platform;
 #[cfg(any(target_arch = "m68k", test))]
 pub mod session;
+#[cfg(any(target_arch = "m68k", test))]
+pub mod synth;
 
 #[cfg(target_arch = "m68k")]
 use alloc::vec::Vec;
@@ -44,6 +46,25 @@ pub extern "C" fn gf_amiga_main(_args: *const u8, _length: i32) -> i32 {
             return 20;
         }
         runtime.put_str(c"sequencer model: one quarter-note ready\n");
+
+        let Some(note) = midi.notes().first().copied() else {
+            return 20;
+        };
+        let Ok(messages) = synth::note_messages(note) else {
+            return 20;
+        };
+        let Ok(mut output) = amiga_gfopensynth::Synth::open(runtime) else {
+            runtime.put_str(c"GFOpenSynth unavailable\n");
+            return 20;
+        };
+        output.reset();
+        output.send_short(messages[0].message);
+        output.send_short(messages[1].message);
+        let Ok(silence) = synth::all_notes_off(0) else {
+            return 20;
+        };
+        output.send_short(silence);
+        runtime.put_str(c"synth adapter: GFOpenSynth message path ready\n");
 
         if allocation_proof.len() == BINDINGS.len() && session.track_count() == 2 && session.sample_rate_hz() == 48_000 && midi.event_count() == 1 {
             0
