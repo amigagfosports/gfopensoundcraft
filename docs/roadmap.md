@@ -1,6 +1,6 @@
 # SoundCraft roadmap: milestones and what's next
 
-> **Last reviewed:** 2026-11-14 · **Last updated:** 2026-11-18 · **Change:** minor (MIDI input landed, the gate row needs checking on macOS and Windows; strict external-WAV AAF import; previously trivial: 28 built-in processors with the Frequency Shifter; G-05 estimate after Linux/X11 plugin editors; M15: partial pt-BR catalog; readiness estimates unchanged) · **Target:** Avid Pro Tools Ultimate 2026.4.1
+> **Last reviewed:** 2026-11-14 · **Last updated:** 2026-11-20 · **Change:** minor (M18 native AmigaOS port foundation linked; native runtime and application layers remain) · **Target:** Avid Pro Tools Ultimate 2026.4.1
 
 Forward-looking plan. Status and numbers: [`../ROADMAP.md`](../ROADMAP.md) and
 [`target-app-parity.md`](target-app-parity.md); the ranked work list: [`gaps.md`](gaps.md).
@@ -52,6 +52,7 @@ Status: ✅ done · 🟡 in progress · ⬜ not started.
 | M15 | **Localization**: catalog, fonts/RTL, the 8 Pro Tools languages first | 🟡 partial (pt-BR catalog; needs native review; PRs #141, #143 open) | 45–80 |
 | M16 | Built-in plugin depth, sidechain, ARA | ⬜ | 110–170 |
 | M17 | Immersive delivery (ADM BWF, object renderer, binaural) and video depth | ⬜ | 80–130 |
+| M18 | Native AmigaOS 3.x 68040 port | 🟡 GFOpenRust-linked platform receipt; runtime and app layers unverified | not estimated |
 
 M8 follow-up (2026-10-14): MCP batches above 1000 calls are rejected before execution (#460).
 The limit is advertised in the tool schema and description; stage and readiness estimates are unchanged.
@@ -88,6 +89,7 @@ There is no `cargo xtask scorecard` in this repo; the measured number is `cargo 
 
 | Date | Change | Summary |
 |---|---|---|
+| 2026-11-20 | minor | M18: linked the native m68k platform receipt and fixed the Open* service boundaries; no AmigaOS runtime proof or readiness change |
 | 2026-11-18 | minor | MIDI input devices landed (G-02 shrunk); the MIDI gate row is unverified until checked on macOS and Windows |
 | 2026-11-14 | minor | M13 is in progress with strict external-WAV AAF import; the exchange gate still fails without AAF export, OMF or `.ptx`; estimates unchanged |
 | 2026-11-09 | trivial | 28 built-in processors with the Frequency Shifter |
