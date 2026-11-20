@@ -29,8 +29,15 @@ Run the complete current gate with:
 ports/amigaos/check.sh
 ```
 
-The current executable is a platform receipt.  It does not yet claim the
-egui interface, playback engine or session model have been ported.  The next
-slices are the native window/event adapter, AHI render callback, CAMD MIDI
-queue and the first portable session/model subset.  Release candidates must
-use GFOpenRust's pinned patched compiler and pass on AmigaOS.
+The current executable now carries the first bounded session-model subset: a
+session name and sample rate, the eight canonical SoundCraft track kinds,
+stable session-wide track ids, and track rename/mute/solo/record-arm state.
+Names, track count and allocations are bounded and return errors rather than
+panicking.  The full `craft-scraft-format` schema is still the canonical
+desktop model and remains `std`-bound; this subset is an adapter, not a second
+file format.
+
+The port does not yet claim the egui interface, playback engine, audio clips,
+MIDI events or session file I/O have been ported.  The next slices are the
+native window/event adapter, AHI render callback and CAMD MIDI queue.  Release
+candidates must use GFOpenRust's pinned patched compiler and pass on AmigaOS.

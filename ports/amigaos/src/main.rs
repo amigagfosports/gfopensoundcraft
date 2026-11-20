@@ -3,16 +3,19 @@
 #![cfg_attr(target_arch = "m68k", no_std)]
 #![deny(clippy::unwrap_used, clippy::expect_used, clippy::panic, clippy::unimplemented, clippy::todo, clippy::unreachable)]
 
-#[cfg(target_arch = "m68k")]
 extern crate alloc;
 
 #[cfg(any(target_arch = "m68k", test))]
 mod platform;
+#[cfg(any(target_arch = "m68k", test))]
+pub mod session;
 
 #[cfg(target_arch = "m68k")]
 use alloc::vec::Vec;
 #[cfg(target_arch = "m68k")]
 use platform::{BINDINGS, STARTUP_LINES};
+#[cfg(target_arch = "m68k")]
+use session::{Session, TrackKind};
 
 #[cfg(target_arch = "m68k")]
 #[allow(unsafe_code, reason = "the fixed AmigaDOS entry symbol is the port's isolated ABI boundary")]
@@ -23,7 +26,16 @@ pub extern "C" fn gf_amiga_main(_args: *const u8, _length: i32) -> i32 {
         for line in STARTUP_LINES {
             runtime.put_str(line);
         }
-        if allocation_proof.len() == BINDINGS.len() { 0 } else { 20 }
+
+        let Ok(mut session) = Session::new("Untitled", 48_000) else {
+            return 20;
+        };
+        if session.add_track("Audio 1", TrackKind::Audio).is_err() || session.add_track("MIDI 1", TrackKind::Midi).is_err() {
+            return 20;
+        }
+        runtime.put_str(c"portable model: audio and MIDI tracks ready\n");
+
+        if allocation_proof.len() == BINDINGS.len() && session.track_count() == 2 && session.sample_rate_hz() == 48_000 { 0 } else { 20 }
     })
 }
 
