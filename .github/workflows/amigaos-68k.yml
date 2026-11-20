@@ -38,7 +38,7 @@ jobs:
             --output "${RUNNER_TEMP}/rustup-init"
           echo "${RUSTUP_INIT_SHA256}  ${RUNNER_TEMP}/rustup-init" | sha256sum --check --status
           chmod 0755 "${RUNNER_TEMP}/rustup-init"
-          "${RUNNER_TEMP}/rustup-init" --yes --no-modify-path --profile minimal \
+          "${RUNNER_TEMP}/rustup-init" -y --no-modify-path --profile minimal \
             --default-toolchain "${RUST_TOOLCHAIN}"
           echo "CARGO_HOME=${CARGO_HOME}" >> "${GITHUB_ENV}"
           echo "RUSTUP_HOME=${RUSTUP_HOME}" >> "${GITHUB_ENV}"
