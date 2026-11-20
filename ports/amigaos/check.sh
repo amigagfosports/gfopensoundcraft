@@ -24,7 +24,7 @@ program="$port/target/m68k-unknown-none-elf/release/gfopensoundcraft-amiga"
 
 file "$program" | grep -Eq 'ELF 32-bit MSB executable, Motorola m68k.*statically linked'
 test -z "$("$nm" -u "$program")"
-for symbol in _start gf_amiga_main gf_lib_call0 gf_dos_call_d1_d2_d3
+for symbol in _start gf_amiga_main gf_lib_call0 gf_lib_call_a0 gf_lib_call_a0_d0 gf_dos_call_d1_d2_d3
 do
     "$nm" -g --defined-only "$program" | grep -Eq "[[:space:]]${symbol}$"
 done
