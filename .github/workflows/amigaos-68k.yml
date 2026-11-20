@@ -16,7 +16,9 @@ permissions:
   contents: read
 
 env:
-  M68K_AR: m68k-amigaos-ar
+  # Rust reads the archive before invoking the Amiga linker, so use the host
+  # GNU archive container around the m68k-amigaos object.
+  M68K_AR: ar
   M68K_CC: m68k-amigaos-gcc
   M68K_NM: m68k-amigaos-nm
   M68K_READELF: m68k-amigaos-readelf
