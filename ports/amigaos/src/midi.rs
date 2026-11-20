@@ -145,9 +145,9 @@ impl Sequence {
             return Err(MidiError::EventLimit);
         }
         if note {
-            self.notes.try_reserve(1).map_err(|_| MidiError::OutOfMemory)
+            self.notes.try_reserve_exact(1).map_err(|_| MidiError::OutOfMemory)
         } else {
-            self.controllers.try_reserve(1).map_err(|_| MidiError::OutOfMemory)
+            self.controllers.try_reserve_exact(1).map_err(|_| MidiError::OutOfMemory)
         }
     }
 }

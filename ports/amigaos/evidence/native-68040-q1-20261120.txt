@@ -1,0 +1,26 @@
+GFOpenSoundCraft native AmigaOS qualification receipt
+=====================================================
+
+Date: 2026-11-20 19:59:39 UTC
+Lab: t1-vectorcraft-20261120 (isolated scratch lab)
+Machine: Amiga 1200-class, 68040/FPU, 1.9 GB RAM
+GFOpenRust: f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d
+gfopensynth.library SHA-256:
+f984bc4effdb2612daff6766c65b7baef90ea1a1e709b0ae5ef86e4507899845
+SoundFont SHA-256:
+9328c94e6682f2c2590371324e2a9503f01b5ed65b4706741929d074cc54a1c6
+Native Hunk SHA-256:
+bc2caf9546d370ad1e8bf44e237efaedddc78d52f7b07902ffac8988e30f30e8
+Qualification archive SHA-256:
+1779e0012a8324d419a77b3aeb8d8c852f9f4b5341e08f659a7a839af383de23
+
+Startup receipt:
+SoundCraft native qualification launch
+RC=0
+
+The successful exit is reached only after the program creates its bounded
+session, adds one audio and one MIDI track, creates a quarter-note sequence,
+opens and resets gfopensynth.library, sends note-on, note-off and all-notes-off,
+and closes the synth. The runtime log showed no SoundCraft trap during this
+run. Audible audio, an editor window, transport and file I/O were not tested
+and remain release gates.

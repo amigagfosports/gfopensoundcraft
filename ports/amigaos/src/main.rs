@@ -33,16 +33,22 @@ pub extern "C" fn gf_amiga_main(_args: *const u8, _length: i32) -> i32 {
             runtime.put_str(line);
         }
 
-        let Ok(mut session) = Session::new("Untitled", 48_000) else {
-            return 20;
+        let mut session = match Session::new("Untitled", 48_000) {
+            Ok(session) => session,
+            Err(_) => {
+                runtime.put_str(c"session model failed\n");
+                return 20;
+            }
         };
         if session.add_track("Audio 1", TrackKind::Audio).is_err() || session.add_track("MIDI 1", TrackKind::Midi).is_err() {
+            runtime.put_str(c"track model failed\n");
             return 20;
         }
         runtime.put_str(c"portable model: audio and MIDI tracks ready\n");
 
         let mut midi = Sequence::with_event_limit(64);
         if midi.add_note(Note { pitch: 60, velocity: 100, release_velocity: 64, channel: 0, start: 0, length: i64::from(midi::PPQ) }).is_err() {
+            runtime.put_str(c"sequencer model failed\n");
             return 20;
         }
         runtime.put_str(c"sequencer model: one quarter-note ready\n");
