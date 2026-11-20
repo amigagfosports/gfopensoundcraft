@@ -16,14 +16,10 @@ permissions:
   contents: read
 
 env:
-  # Rust reads the archive before invoking the Amiga linker, so use the host
-  # GNU archive container around the m68k-amigaos object.
-  M68K_AR: ar
-  M68K_CC: m68k-amigaos-gcc
-  M68K_LINKER: ${{ github.workspace }}/ports/amigaos/m68k-amigaos-gcc-wrapper.sh
-  M68K_NM: m68k-amigaos-nm
-  M68K_READELF: m68k-amigaos-readelf
-  M68K_TOOLS: /opt/lumavault-tools/m68k-gcc16
+  M68K_LINKER: ${{ github.workspace }}/ports/amigaos/m68k-gnu-linker-wrapper.sh
+  M68K_NM: m68k-linux-gnu-nm
+  M68K_READELF: m68k-linux-gnu-readelf
+  M68K_REAL_LINKER: m68k-linux-gnu-ld
   RUST_TOOLCHAIN: 1.98.1
 
 jobs:
@@ -51,15 +47,23 @@ jobs:
           echo "CARGO_HOME=${CARGO_HOME}" >> "${GITHUB_ENV}"
           echo "RUSTUP_HOME=${RUSTUP_HOME}" >> "${GITHUB_ENV}"
           echo "${CARGO_HOME}/bin" >> "${GITHUB_PATH}"
-          echo "${M68K_TOOLS}/bin" >> "${GITHUB_PATH}"
           "${CARGO_HOME}/bin/rustup" component add rust-src rustfmt clippy
+      - name: Install m68k ELF binutils
+        run: |
+          tools="${RUNNER_TEMP}/m68k-binutils"
+          mkdir -p "${tools}/packages"
+          cd "${tools}/packages"
+          apt-get download binutils-m68k-linux-gnu
+          archive=$(find . -maxdepth 1 -name 'binutils-m68k-linux-gnu_*.deb' -print -quit)
+          test -n "${archive}"
+          dpkg-deb --extract "${archive}" "${tools}"
+          echo "${tools}/usr/bin" >> "${GITHUB_PATH}"
       - name: Verify toolchain
         run: |
           rustc --version --verbose
-          command -v "${M68K_AR}"
-          command -v "${M68K_CC}"
           command -v "${M68K_NM}"
           command -v "${M68K_READELF}"
+          command -v "${M68K_REAL_LINKER}"
           test -x "${M68K_LINKER}"
       - name: Build and inspect native port
         run: ports/amigaos/check.sh
