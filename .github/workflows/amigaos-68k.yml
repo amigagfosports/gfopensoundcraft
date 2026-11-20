@@ -16,6 +16,9 @@ permissions:
   contents: read
 
 env:
+  M68K_CC: m68k-amigaos-gcc
+  M68K_NM: m68k-amigaos-nm
+  M68K_READELF: m68k-amigaos-readelf
   M68K_TOOLS: /opt/lumavault-tools/m68k-gcc16
   RUST_TOOLCHAIN: 1.98.1
 
@@ -49,14 +52,8 @@ jobs:
       - name: Verify toolchain
         run: |
           rustc --version --verbose
-          if ! command -v m68k-linux-gnu-gcc >/dev/null 2>&1; then
-            echo "m68k-linux-gnu tools are not on PATH; compiler bundle contents:" >&2
-            find "${M68K_TOOLS}" -maxdepth 4 -type f \
-              \( -name '*gcc*' -o -name '*nm*' -o -name '*readelf*' \) -print >&2
-            exit 1
-          fi
-          command -v m68k-linux-gnu-gcc
-          command -v m68k-linux-gnu-nm
-          command -v m68k-linux-gnu-readelf
+          command -v "${M68K_CC}"
+          command -v "${M68K_NM}"
+          command -v "${M68K_READELF}"
       - name: Build and inspect native port
         run: ports/amigaos/check.sh

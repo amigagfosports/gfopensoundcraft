@@ -4,21 +4,22 @@ set -eu
 
 port=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 manifest="$port/Cargo.toml"
+cc=${M68K_CC:-m68k-linux-gnu-gcc}
+nm=${M68K_NM:-m68k-linux-gnu-nm}
+readelf=${M68K_READELF:-m68k-linux-gnu-readelf}
 
 cargo fmt --manifest-path "$manifest" --all --check
 cargo test --manifest-path "$manifest"
 cargo clippy --manifest-path "$manifest" --all-targets -- -D warnings
 
 RUSTC_BOOTSTRAP=1 \
-RUSTFLAGS='-C target-cpu=M68040 -C target-feature=-isa-68881,-isa-68882 -C code-model=large -C linker=m68k-linux-gnu-gcc -C link-arg=-nostdlib -C link-arg=-Wl,-e,_start' \
+RUSTFLAGS="-C target-cpu=M68040 -C target-feature=-isa-68881,-isa-68882 -C code-model=large -C linker=${cc} -C link-arg=-nostdlib -C link-arg=-Wl,-e,_start" \
     cargo build --manifest-path "$manifest" --release \
     --target m68k-unknown-none-elf \
     -Zbuild-std=core,alloc,compiler_builtins \
     -Zbuild-std-features=compiler-builtins-mem
 
 program="$port/target/m68k-unknown-none-elf/release/gfopensoundcraft-amiga"
-nm=${M68K_NM:-m68k-linux-gnu-nm}
-readelf=${M68K_READELF:-m68k-linux-gnu-readelf}
 
 file "$program" | grep -Eq 'ELF 32-bit MSB executable, Motorola m68k.*statically linked'
 test -z "$("$nm" -u "$program")"
