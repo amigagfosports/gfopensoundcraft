@@ -3,9 +3,17 @@
 version = 4
 
 [[package]]
+name = "amiga-gfopenlayout"
+version = "0.1.0"
+source = "git+https://github.com/DalsinAI/gfopenrust?rev=d71b80d0531eceac8b7d72bf9e1c21c0a810bf13#d71b80d0531eceac8b7d72bf9e1c21c0a810bf13"
+dependencies = [
+ "amiga-runtime",
+]
+
+[[package]]
 name = "amiga-gfopensynth"
 version = "0.1.0"
-source = "git+https://github.com/DalsinAI/gfopenrust?rev=f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d#f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d"
+source = "git+https://github.com/DalsinAI/gfopenrust?rev=d71b80d0531eceac8b7d72bf9e1c21c0a810bf13#d71b80d0531eceac8b7d72bf9e1c21c0a810bf13"
 dependencies = [
  "amiga-runtime",
 ]
@@ -13,7 +21,7 @@ dependencies = [
 [[package]]
 name = "amiga-runtime"
 version = "0.1.0"
-source = "git+https://github.com/DalsinAI/gfopenrust?rev=f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d#f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d"
+source = "git+https://github.com/DalsinAI/gfopenrust?rev=d71b80d0531eceac8b7d72bf9e1c21c0a810bf13#d71b80d0531eceac8b7d72bf9e1c21c0a810bf13"
 dependencies = [
  "amiga-sys",
 ]
@@ -21,12 +29,13 @@ dependencies = [
 [[package]]
 name = "amiga-sys"
 version = "0.1.0"
-source = "git+https://github.com/DalsinAI/gfopenrust?rev=f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d#f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d"
+source = "git+https://github.com/DalsinAI/gfopenrust?rev=d71b80d0531eceac8b7d72bf9e1c21c0a810bf13#d71b80d0531eceac8b7d72bf9e1c21c0a810bf13"
 
 [[package]]
 name = "gfopensoundcraft-amiga"
 version = "0.1.0"
 dependencies = [
+ "amiga-gfopenlayout",
  "amiga-gfopensynth",
  "amiga-runtime",
 ]

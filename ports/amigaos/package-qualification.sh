@@ -5,7 +5,7 @@ set -eu
 port=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 root=$(CDPATH= cd -- "$port/../.." && pwd)
 tool_dir=${1:?usage: package-qualification.sh /path/to/m68k-amigaos-bin}
-name=GFOpenSoundCraft-0.1.0-q1
+name=GFOpenSoundCraft-0.1.0-q2
 dist="$root/dist/amigaos"
 stage=$(mktemp -d "${TMPDIR:-/tmp}/gfopensoundcraft-package.XXXXXX")
 drawer="$stage/$name"

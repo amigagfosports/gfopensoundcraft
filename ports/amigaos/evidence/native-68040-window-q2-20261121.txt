@@ -1,0 +1,37 @@
+GFOpenSoundCraft native AmigaOS window qualification receipt
+============================================================
+
+Date: 2026-11-21 10:19 UTC
+Lab: t1-photocraft-20261120 (isolated Team 1 scratch lab)
+Machine: Amiga 1200-class, 68040/FPU, 1.9 GB RAM
+GFOpenRust: d71b80d0531eceac8b7d72bf9e1c21c0a810bf13
+gfopensynth.library SHA-256:
+f984bc4effdb2612daff6766c65b7baef90ea1a1e709b0ae5ef86e4507899845
+SoundFont SHA-256:
+9328c94e6682f2c2590371324e2a9503f01b5ed65b4706741929d074cc54a1c6
+Native Hunk SHA-256:
+8f240eee44d77e8128c9614da41a0d91afb069d7981a93b6e8f87c9cc4aa974a
+
+Current-session host qualification:
+- 16/16 Rust tests passed.
+- rustfmt and clippy passed.
+- the m68k target built as an AmigaOS loadseg-able Hunk with no unresolved
+  symbols.
+
+Current-session native interaction proof:
+- the program launched from DH0:Tests/SoundCraft/SoundCraft and rendered its
+  native GFOpenLayout editor on Workbench;
+- Play note changed the title to "SoundCraft - Auditioned C4", the timeline
+  to "Audition complete", and the status to the GFOpenSynth send receipt;
+- Stop changed the title to "SoundCraft - Stopped", reset the timeline, and
+  reported the synthesiser reset;
+- Arm MIDI changed the real session model's MIDI track state from Safe to
+  Armed and refreshed both the title and inspector;
+- the visible "Add MIDI track (next)" control was disabled and a click did not
+  change the title, track count, model state or status;
+- the window close gadget returned to Workbench, and Status showed no
+  SoundCraft process.
+
+This proves native window creation, bounded control dispatch, the linked
+session/synth adapters and clean shutdown. It does not prove audible output,
+timed transport, audio recording/rendering, CAMD device I/O or file I/O.

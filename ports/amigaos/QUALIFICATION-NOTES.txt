@@ -1,10 +1,10 @@
 GFOpenSoundCraft 0.1.0 native qualification build for AmigaOS 3.x
 =================================================================
 
-STATUS: NATIVE QUALIFICATION BUILD; NOT A RELEASE CANDIDATE. Native startup,
-GFOpenSynth open/reset/message/close and clean exit passed in the isolated
-68040 lab on 20 November 2026. The missing editor and transport remain release
-gates.
+STATUS: NATIVE WINDOW QUALIFICATION BUILD; NOT A RELEASE CANDIDATE. Native
+startup, GFOpenSynth open/reset/message/close, GFOpenLayout rendering, bounded
+control events and clean exit passed in an isolated 68040 lab on 21 November
+2026. Timed transport playback and file I/O remain release gates.
 
 Requirements
 ------------
@@ -17,15 +17,20 @@ Included
 - native Amiga Hunk executable
 - bounded session and MIDI sequence models
 - GFOpenSynth reset, note-on, note-off and all-notes-off smoke path
+- native GFOpenLayout editor with track, timeline and inspector panels
+- working Play note, Stop and MIDI record-arm controls
 
-This qualification build has no editor window, transport or file I/O. Those
-remain release gates rather than claimed features.
+The Play note control sends a bounded C4 note-on/note-off pair immediately;
+it is not timed transport playback. Add MIDI track is visibly marked as the
+next slice and disabled. Audio clips, save/load, SMF, AHI recording/rendering
+and CAMD device I/O are not claimed.
 
 Qualification receipt
 ---------------------
-- GFOpenRust revision: f16b2f931e8fe3a1ceccdc8c8b27eb78dc87790d
-- Hunk SHA-256: bc2caf9546d370ad1e8bf44e237efaedddc78d52f7b07902ffac8988e30f30e8
-- Lab: t1-vectorcraft-20261120 (isolated scratch copy, 68040/FPU)
-- Result: AmigaDOS RC=0
+- GFOpenRust revision: d71b80d0531eceac8b7d72bf9e1c21c0a810bf13
+- Hunk SHA-256: 8f240eee44d77e8128c9614da41a0d91afb069d7981a93b6e8f87c9cc4aa974a
+- Lab: t1-photocraft-20261120 (isolated Team 1 scratch copy, 68040/FPU)
+- Result: window rendered; Play, Stop and record-arm changed live state; disabled
+  next-step control remained inert; close returned cleanly to Workbench
 
 License: MIT OR Apache-2.0
