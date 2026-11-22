@@ -1,0 +1,16 @@
+{
+  "name": "GFOpenSoundCraft",
+  "version": "0.1.0-uat2",
+  "drawer": "SoundCraft",
+  "program": "SoundCraft",
+  "cpu": "68040",
+  "fpu": true,
+  "space": 2000000,
+  "modules": [],
+  "keep": [
+    "SoundCraft.scf"
+  ],
+  "parent": "SYS:Utilities",
+  "badge": "../docs/brand/artcraft-mark.png",
+  "script": "Install-SoundCraft"
+}

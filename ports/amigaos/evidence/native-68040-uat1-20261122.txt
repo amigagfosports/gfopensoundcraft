@@ -1,0 +1,133 @@
+GFOpenSoundCraft native 68040 UAT receipt — 22 November 2026
+================================================================
+
+Candidate identity
+------------------
+- source commit: cbb4de87c157c04bf734844bb908f5a4104d96d2
+- branch: team1/amigaos68k-window-20261121
+- LumaVAULT Kitchen job: j20261122T062800-1f3708
+- executable: SoundCraft, 31,936 bytes
+- executable SHA-256: 3456f9fe08ea6c9463159ecf45a730723f56688a04141a70f984193539ab1ffe
+- Kitchen and local native builds produced byte-identical executables
+- host gate: rustfmt, clippy -D warnings and 20/20 tests passed
+
+Native environment
+------------------
+- isolated Team 1 lab: t1-soundcraft-20261122
+- AmigaOS 3.x, 68040/FPU, RTG Workbench
+- the exact Kitchen executable above was copied into SYS: and executed
+- GFOpenUp first-run setup was disabled only in this scratch lab so it could
+  not obscure the application window; no product source was changed
+- gfopensynth.library was deliberately absent from this lab
+
+Observed UAT
+------------
+1. The earlier 99fbb5a candidate exited with return code 20 when
+   gfopensynth.library was missing.  This was a live failure, not a theoretical
+   review observation.
+2. cbb4de8 opened the real native GFOpenLayout window and kept editing enabled
+   without the synth library.
+3. Arm MIDI changed the live model and inspector to "Armed".
+4. Save wrote SYS:SoundCraft.scf (97 bytes), SHA-256
+   4ff544fc4dc57d9b04b5c621e79095538a64d0ded33a65037129e17301072445.
+5. Open restored the saved project and its Armed MIDI state.
+6. Replacing the file with the three-byte value "BAD" produced
+   "Open failed: invalid SCF1".  The bounded parser rejected it and the live
+   project remained Armed and usable.
+7. Restoring the valid 97-byte file allowed it to open again.
+8. Play note without gfopensynth.library reported "Synth unavailable" and
+   "editing remains available"; the editor stayed open.
+9. Closing the window returned cleanly to Workbench.  SYS:SoundCraft.log ended
+   with "SoundCraft: native editor closed".
+
+Scope and remaining release gates
+---------------------------------
+This receipt proves the exact candidate's native window, bounded SCF1
+save/open, hostile-file rejection, graceful missing-synth behaviour and clean
+close.  It does not claim audible playback or AkikoPlus selection: those need
+a separate native run with gfopensynth.library installed.  The current plate
+also has no Installer script, so it is a UAT-ready candidate rather than a
+finished distributable RC.
+
+Follow-up synth-present run
+---------------------------
+After the UAT above, the previously qualified `gfopensynth.library` and Basic
+SoundFont from the 20 November Q1 receipt were installed into the same lab:
+
+- gfopensynth.library SHA-256:
+  f984bc4effdb2612daff6766c65b7baef90ea1a1e709b0ae5ef86e4507899845
+- basic.sf2 SHA-256:
+  9328c94e6682f2c2590371324e2a9503f01b5ed65b4706741929d074cc54a1c6
+
+A controlled rerun invalidated the initial failure interpretation.  Running a
+Workbench application in the agent's foreground naturally leaves the script
+"running" until its event loop closes, and the black screenshot was taken
+before Workbench had become visible.  It was not proof of an application
+startup block.
+
+With `GFOpenSynth/Output=ahi`, a minimal smoke built from the candidate's exact
+GFOpenRust revision (7a3e3e1523e6233311fc30dc2f5a8bc51f6291e5) opened the
+library, reset it, sent all-notes-off and returned "GFOpenSynth binding ready".
+A second instrumented smoke also passed open, reset, note-on, note-off and
+all-notes-off checkpoints.  The exact SoundCraft candidate was then launched
+detached from the agent: its editor appeared with the qualified library and
+SoundFont present, Play changed the live title to "SoundCraft - Auditioned C4"
+and the status to "Sent note on/off through GFOpenSynth", and the window closed
+cleanly back to Workbench.
+
+Synth-present startup and message delivery are therefore qualified.  This run
+does not establish that audio was audible outside the muted lab.  The
+Installer was a separate gate for that run and is qualified below.
+
+Installer-ready UAT2 follow-up
+------------------------------
+Commit f8d4456741250b730b13dfce53ce0e383db27b15 adds the native Installer,
+GlowIcons and package build, and changes the project path from SYS: to
+PROGDIR: so an installed application keeps its session beside itself.
+
+- package: GFOpenSoundCraft-0.1.0-uat2-68040.lha
+- package: 39,367 bytes, SHA-256
+  73a4c1224b832b9bcb0d0e081a805b8dd6a451a113523fbcfd3eb7eedf5ac5a6
+- archive listing: drawer icon, Installer script and icon, SoundCraft drawer,
+  program and ReadMe GlowIcons, licences, attribution and 31,984-byte native
+  executable
+- generated Installer and icon files reproduced byte-for-byte from current
+  AmiCradle main e3acc8c239ea8565fd5faaf684866e05da0c0bd2
+- host gate: generated-file comparison, 20/20 tests, clippy, native Hunk gate,
+  package checksum and LhA listing passed
+- native Team 1 lab: the packaged executable opened from
+  SYS:UAT2/SoundCraft, Arm MIDI and Save succeeded, and the 97-byte file was
+  created at PROGDIR:SoundCraft.scf with SHA-256
+  4ff544fc4dc57d9b04b5c621e79095538a64d0ded33a65037129e17301072445;
+  the older SYS:SoundCraft.scf was unchanged
+- clean close returned to Workbench; the lab was stopped and test drawer moved
+  into its recoverable archive
+
+Installer UAT2 follow-up
+------------------------
+The exact UAT2 archive was unpacked into the stopped Team 1 lab.  The lab's
+base image has no Installer, so Installer 47.19 was copied read-only from the
+qualified Team 3 OpenInstaller lab into the Team 1 test drawer only:
+
+- Installer 47.19 SHA-256:
+  e61343e2e801477e8697a5e779c14294397b3e073c16fdaa629e4068e8d7638c
+- no Team 3 file or lab state was changed
+
+The native Installer walk then passed:
+
+1. Pretend ran from the unpacked archive and selected the default
+   SYS:Utilities destination.  The Installer exercised every copy step, then
+   exited with neither `SYS:Utilities/SoundCraft` nor its drawer icon present.
+2. Fresh install created the drawer and icon.  The installed 31,984-byte Hunk
+   matched the packaged executable exactly at SHA-256
+   6bae765e385d9767a2e578fd922ec1a48f323adcbfeee75f6ee02bff0a6bee52.
+3. A valid 97-byte SoundCraft.scf fixture with SHA-256
+   4ff544fc4dc57d9b04b5c621e79095538a64d0ded33a65037129e17301072445
+   was placed in the installed drawer.  The update copied the application,
+   icons, ReadMe, licences and attribution but omitted SoundCraft.scf.  Its
+   size, timestamp and SHA-256 were unchanged after the update.
+4. The lab was stopped cleanly after the checks.
+
+The Installer gate is now qualified.  UAT2 still is not an RC: audible output
+outside the muted lab is unproved, Forge CI remains red, and the exact Kitchen
+package job cannot emit its LhA until the os32 stove provides `lha`.

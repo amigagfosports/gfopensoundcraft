@@ -1,0 +1,46 @@
+GFOpenSoundCraft 0.1.0 native qualification build for AmigaOS 3.x
+=================================================================
+
+STATUS: INSTALLER-READY UAT2; NOT YET A RELEASE CANDIDATE. Native
+GFOpenLayout rendering, bounded control events, SCF1 save/open, hostile-file
+rejection, missing-synth degradation, synth-present message delivery, clean
+exit, and Installer Pretend/fresh/update paths passed in an isolated 68040 lab
+on 22 November 2026. Audible output remains unproved because the lab is muted.
+
+Requirements
+------------
+- AmigaOS 3.x
+- 68040 CPU
+- gfopensynth.library version 1 or newer for audition; editing works without it
+
+Included
+--------
+- native Amiga Hunk executable
+- bounded session and MIDI sequence models
+- GFOpenSynth reset, note-on, note-off and all-notes-off smoke path
+- native GFOpenLayout editor with track, timeline and inspector panels
+- working Play note, Stop and MIDI record-arm controls
+- bounded SCF1 Save and Open at PROGDIR:SoundCraft.scf
+- generated Installer and GlowIcons in the UAT2 LhA package
+
+The Play note control sends a bounded C4 note-on/note-off pair immediately;
+it is not timed transport playback. Add MIDI track is visibly marked as the
+next slice and disabled. Audio clips, SMF, AHI recording/rendering and CAMD
+device I/O are not claimed.
+
+Qualification receipt
+---------------------
+- GFOpenRust revision: 7a3e3e1523e6233311fc30dc2f5a8bc51f6291e5
+- application/package source: c6009c7ca0090a6f56e92d10dbce4c51244c2a15
+- Kitchen job: j20261122T081348-fa9f06 (tests, clippy and native compile
+  passed; archive step could not run because the os32 stove lacks lha)
+- package SHA-256: 73a4c1224b832b9bcb0d0e081a805b8dd6a451a113523fbcfd3eb7eedf5ac5a6
+- Hunk SHA-256: 6bae765e385d9767a2e578fd922ec1a48f323adcbfeee75f6ee02bff0a6bee52
+- Lab: t1-soundcraft-20261122 (isolated Team 1 scratch copy, 68040/FPU)
+- Result: window rendered; MIDI arm, save and reopen changed/restored live
+  state; a hostile three-byte project was rejected without replacing state;
+  missing synth did not terminate the editor; qualified synth message delivery
+  passed; close returned to Workbench; Installer Pretend changed nothing,
+  fresh install copied the exact Hunk, and update preserved SoundCraft.scf
+
+License: MIT OR Apache-2.0

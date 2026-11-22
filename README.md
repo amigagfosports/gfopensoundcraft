@@ -164,6 +164,16 @@ The web build:
 cd apps/soundcraft-web && trunk serve --release   # then open http://127.0.0.1:8080
 ```
 
+### AmigaOS 3.x port
+
+The `AmigaGFOSPorts` fork carries a native 68040 port under
+[`ports/amigaos`](ports/amigaos/README.md).  Its current milestone is a native
+GFOpenLayout editor that launched on an isolated AmigaOS 3.x 68040 lab and
+exercised bounded session and GFOpenSynth controls.  The audio, MIDI, media,
+synth and updater boundaries are fixed, but timed transport, recording,
+rendering, device I/O and file I/O remain.  It is a qualification build, not a
+usable DAW or release candidate.
+
 Useful shortcuts: <kbd>Space</kbd> play/stop, <kbd>⌘</kbd><kbd>=</kbd> Mix/Edit,
 <kbd>F1</kbd>–<kbd>F4</kbd> edit modes, <kbd>F5</kbd>–<kbd>F10</kbd> tools, <kbd>⌘</kbd><kbd>E</kbd>
 separate, <kbd>⌘</kbd><kbd>D</kbd> duplicate, <kbd>Enter</kbd> new marker, <kbd>⌘</kbd><kbd>⇧</kbd><kbd>N</kbd>
