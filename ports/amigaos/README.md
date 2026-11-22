@@ -77,7 +77,8 @@ isolated 68040/FPU lab on 22 November 2026.  It also remains usable when
 instead of terminating.  The receipt is in
 `evidence/native-68040-uat1-20261122.txt`.
 
-The UAT2 package adds a generated Installer, application/drawer/ReadMe
+The RC1 package carries the UAT2-qualified generated Installer,
+application/drawer/ReadMe
 GlowIcons, licences and attribution.  The exact package passed Pretend, fresh
 install and update walks with Installer 47.19 in the Team 1 68040/FPU lab.  A
 97-byte `SoundCraft.scf` placed in the installed drawer retained its exact
@@ -89,6 +90,7 @@ I/O, MIDI device I/O, AHI recording/rendering or CAMD queues.  The visible Add
 MIDI track button is disabled and labelled as the next slice.  Synth-present
 startup and note/reset message delivery now pass with the qualified
 GFOpenSynth library and SoundFont, but the muted lab cannot prove audible
-output.  UAT2 is therefore not promoted to RC yet.
-Release candidates must use GFOpenRust's pinned patched compiler and pass on
+output. RC1 is therefore the distributable candidate for Dale's unmuted audio
+UAT; final release must not claim audible output until that check passes.
+Release candidates use GFOpenRust's pinned patched compiler and pass on
 AmigaOS.

@@ -1,8 +1,9 @@
-GFOpenSoundCraft 0.1.0 UAT2
-===========================
+GFOpenSoundCraft 0.1.0 RC1
+==========================
 
-This is the UAT-ready native AmigaOS 3.x 68040 candidate for SoundCraft's
-compact MIDI-sequencer path.  It is not the final distributable RC yet.
+This is the first distributable native AmigaOS 3.x 68040 release candidate for
+SoundCraft's compact MIDI-sequencer path. It is intended for final external
+audio UAT, not presented as the full desktop SoundCraft application.
 
 Working in this build:
 - native GFOpenLayout transport, track, timeline and inspector interface;
@@ -23,8 +24,7 @@ Not yet qualified:
 - audible output outside the muted qualification lab.
 
 Verified for this exact candidate:
-- exact-head LumaVAULT Kitchen tests, clippy and native compile (the archive
-  step stopped only because the os32 stove currently lacks `lha`);
+- exact-head LumaVAULT Kitchen tests, clippy, native compile and LhA packaging;
 - byte-verified local UAT2 LhA package;
 - native 68040/FPU window, MIDI arm, save, reopen and clean close;
 - rejection of a three-byte hostile project without replacing live state;
@@ -32,6 +32,6 @@ Verified for this exact candidate:
 - synth-present startup and GFOpenSynth note/reset message delivery;
 - Installer 47.19 Pretend, fresh install and project-preserving update paths.
 
-RC promotion still requires audible output proof outside the muted lab and a
-green release build/CI receipt.  See
-`evidence/native-68040-uat1-20261122.txt` for the full receipt.
+Final release still requires audible output proof outside the muted lab. RC1
+exists so that check can be performed on an unmuted Amiga system. See
+`evidence/native-68040-uat1-20261122.txt` for the full pre-RC native receipt.
