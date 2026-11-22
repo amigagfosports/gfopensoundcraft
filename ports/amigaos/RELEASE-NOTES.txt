@@ -1,0 +1,24 @@
+GFOpenSoundCraft 0.1.0 RC1
+==========================
+
+This is a native AmigaOS 3.x 68040 release candidate of SoundCraft's compact
+MIDI-sequencer path.
+
+Working in this build:
+- native GFOpenLayout transport, track, timeline and inspector interface;
+- bounded session and 960 PPQ MIDI models;
+- Play audition and Stop/reset through GFOpenSynth and AkikoPlus OpenSynth;
+- MIDI record-arm state;
+- bounded SCF1 Save and Open at SYS:SoundCraft.scf;
+- stable track IDs, track mix state, notes and controller events in SCF1;
+- fail-closed parsing for truncated, malformed, over-limit and trailing data.
+
+Not yet qualified:
+- timed transport and editing beyond the supplied sequence;
+- CAMD device recording;
+- AHI audio recording, mixing and rendering;
+- desktop SoundCraft project compatibility;
+- ASL file requesters and GFOpenUp installation.
+
+RC promotion requires an independent Kitchen plate and fresh native 68040
+save/open/hostile-file receipt for the exact candidate.
