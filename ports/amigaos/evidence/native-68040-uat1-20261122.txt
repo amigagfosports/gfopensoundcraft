@@ -59,10 +59,22 @@ SoundFont from the 20 November Q1 receipt were installed into the same lab:
 - basic.sf2 SHA-256:
   9328c94e6682f2c2590371324e2a9503f01b5ed65b4706741929d074cc54a1c6
 
-Launching the exact candidate then failed before its editor window appeared.
-The agent remained inside SoundCraft for more than 50 seconds with no program
-output, and the RTG screen stayed on the system's black engineers backdrop.
-The lab had to be stopped.  The library and SoundFont were renamed to disabled
-test files before restarting the scratch lab.  Therefore synth-present startup
-is a reproduced RC blocker; this run does not qualify audition or audible
-output.
+A controlled rerun invalidated the initial failure interpretation.  Running a
+Workbench application in the agent's foreground naturally leaves the script
+"running" until its event loop closes, and the black screenshot was taken
+before Workbench had become visible.  It was not proof of an application
+startup block.
+
+With `GFOpenSynth/Output=ahi`, a minimal smoke built from the candidate's exact
+GFOpenRust revision (7a3e3e1523e6233311fc30dc2f5a8bc51f6291e5) opened the
+library, reset it, sent all-notes-off and returned "GFOpenSynth binding ready".
+A second instrumented smoke also passed open, reset, note-on, note-off and
+all-notes-off checkpoints.  The exact SoundCraft candidate was then launched
+detached from the agent: its editor appeared with the qualified library and
+SoundFont present, Play changed the live title to "SoundCraft - Auditioned C4"
+and the status to "Sent note on/off through GFOpenSynth", and the window closed
+cleanly back to Workbench.
+
+Synth-present startup and message delivery are therefore qualified.  This run
+does not establish that audio was audible outside the muted lab, and the
+Installer remains a separate release gate.
