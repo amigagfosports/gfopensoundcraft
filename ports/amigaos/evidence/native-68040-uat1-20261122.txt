@@ -1,0 +1,50 @@
+GFOpenSoundCraft native 68040 UAT receipt — 22 November 2026
+================================================================
+
+Candidate identity
+------------------
+- source commit: cbb4de87c157c04bf734844bb908f5a4104d96d2
+- branch: team1/amigaos68k-window-20261121
+- LumaVAULT Kitchen job: j20261122T062800-1f3708
+- executable: SoundCraft, 31,936 bytes
+- executable SHA-256: 3456f9fe08ea6c9463159ecf45a730723f56688a04141a70f984193539ab1ffe
+- Kitchen and local native builds produced byte-identical executables
+- host gate: rustfmt, clippy -D warnings and 20/20 tests passed
+
+Native environment
+------------------
+- isolated Team 1 lab: t1-soundcraft-20261122
+- AmigaOS 3.x, 68040/FPU, RTG Workbench
+- the exact Kitchen executable above was copied into SYS: and executed
+- GFOpenUp first-run setup was disabled only in this scratch lab so it could
+  not obscure the application window; no product source was changed
+- gfopensynth.library was deliberately absent from this lab
+
+Observed UAT
+------------
+1. The earlier 99fbb5a candidate exited with return code 20 when
+   gfopensynth.library was missing.  This was a live failure, not a theoretical
+   review observation.
+2. cbb4de8 opened the real native GFOpenLayout window and kept editing enabled
+   without the synth library.
+3. Arm MIDI changed the live model and inspector to "Armed".
+4. Save wrote SYS:SoundCraft.scf (97 bytes), SHA-256
+   4ff544fc4dc57d9b04b5c621e79095538a64d0ded33a65037129e17301072445.
+5. Open restored the saved project and its Armed MIDI state.
+6. Replacing the file with the three-byte value "BAD" produced
+   "Open failed: invalid SCF1".  The bounded parser rejected it and the live
+   project remained Armed and usable.
+7. Restoring the valid 97-byte file allowed it to open again.
+8. Play note without gfopensynth.library reported "Synth unavailable" and
+   "editing remains available"; the editor stayed open.
+9. Closing the window returned cleanly to Workbench.  SYS:SoundCraft.log ended
+   with "SoundCraft: native editor closed".
+
+Scope and remaining release gates
+---------------------------------
+This receipt proves the exact candidate's native window, bounded SCF1
+save/open, hostile-file rejection, graceful missing-synth behaviour and clean
+close.  It does not claim audible playback or AkikoPlus selection: those need
+a separate native run with gfopensynth.library installed.  The current plate
+also has no Installer script, so it is a UAT-ready candidate rather than a
+finished distributable RC.

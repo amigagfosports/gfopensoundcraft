@@ -67,8 +67,20 @@ model.  All three controls and clean close were exercised in the isolated Team
 1 68040/FPU lab on 21 November 2026.  The exact receipt is in
 `evidence/native-68040-window-q2-20261121.txt`.
 
+The UAT1 slice adds bounded SCF1 persistence at `SYS:SoundCraft.scf`.  Save and
+Open preserve the session, tracks, mix state, notes, controllers and MIDI arm
+state.  The parser rejects truncated, malformed, over-limit and trailing data
+without replacing the live project.  The exact Kitchen-built candidate passed
+native save, reopen, three-byte hostile-file rejection and clean close in an
+isolated 68040/FPU lab on 22 November 2026.  It also remains usable when
+`gfopensynth.library` is absent; Play reports that audition is unavailable
+instead of terminating.  The receipt is in
+`evidence/native-68040-uat1-20261122.txt`.
+
 The port does not yet claim timed transport playback, audio clips, SMF file
-I/O, MIDI device I/O, session file I/O, AHI recording/rendering or CAMD queues.
-The visible Add MIDI track button is disabled and labelled as the next slice.
+I/O, MIDI device I/O, AHI recording/rendering or CAMD queues.  The visible Add
+MIDI track button is disabled and labelled as the next slice.  Audible
+GFOpenSynth/AkikoPlus playback for this exact candidate still needs a lab with
+the library installed, and the distributable still needs an Installer script.
 Release candidates must use GFOpenRust's pinned patched compiler and pass on
 AmigaOS.

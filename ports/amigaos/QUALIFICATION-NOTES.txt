@@ -1,16 +1,17 @@
 GFOpenSoundCraft 0.1.0 native qualification build for AmigaOS 3.x
 =================================================================
 
-STATUS: NATIVE WINDOW QUALIFICATION BUILD; NOT A RELEASE CANDIDATE. Native
-startup, GFOpenSynth open/reset/message/close, GFOpenLayout rendering, bounded
-control events and clean exit passed in an isolated 68040 lab on 21 November
-2026. Timed transport playback and file I/O remain release gates.
+STATUS: UAT-READY CANDIDATE; NOT YET A DISTRIBUTABLE RELEASE CANDIDATE. Native
+GFOpenLayout rendering, bounded control events, SCF1 save/open, hostile-file
+rejection, missing-synth degradation and clean exit passed in an isolated
+68040 lab on 22 November 2026. An Installer and exact-candidate synth audition
+remain release gates.
 
 Requirements
 ------------
 - AmigaOS 3.x
 - 68040 CPU
-- gfopensynth.library version 1 or newer
+- gfopensynth.library version 1 or newer for audition; editing works without it
 
 Included
 --------
@@ -19,18 +20,22 @@ Included
 - GFOpenSynth reset, note-on, note-off and all-notes-off smoke path
 - native GFOpenLayout editor with track, timeline and inspector panels
 - working Play note, Stop and MIDI record-arm controls
+- bounded SCF1 Save and Open at SYS:SoundCraft.scf
 
 The Play note control sends a bounded C4 note-on/note-off pair immediately;
 it is not timed transport playback. Add MIDI track is visibly marked as the
-next slice and disabled. Audio clips, save/load, SMF, AHI recording/rendering
-and CAMD device I/O are not claimed.
+next slice and disabled. Audio clips, SMF, AHI recording/rendering and CAMD
+device I/O are not claimed.
 
 Qualification receipt
 ---------------------
 - GFOpenRust revision: d71b80d0531eceac8b7d72bf9e1c21c0a810bf13
-- Hunk SHA-256: 8f240eee44d77e8128c9614da41a0d91afb069d7981a93b6e8f87c9cc4aa974a
-- Lab: t1-photocraft-20261120 (isolated Team 1 scratch copy, 68040/FPU)
-- Result: window rendered; Play, Stop and record-arm changed live state; disabled
-  next-step control remained inert; close returned cleanly to Workbench
+- source: cbb4de87c157c04bf734844bb908f5a4104d96d2
+- Kitchen job: j20261122T062800-1f3708
+- Hunk SHA-256: 3456f9fe08ea6c9463159ecf45a730723f56688a04141a70f984193539ab1ffe
+- Lab: t1-soundcraft-20261122 (isolated Team 1 scratch copy, 68040/FPU)
+- Result: window rendered; MIDI arm, save and reopen changed/restored live
+  state; a hostile three-byte project was rejected without replacing state;
+  missing synth did not terminate the editor; close returned to Workbench
 
 License: MIT OR Apache-2.0

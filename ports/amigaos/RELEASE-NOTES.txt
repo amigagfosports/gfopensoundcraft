@@ -1,8 +1,8 @@
-GFOpenSoundCraft 0.1.0 RC1
-==========================
+GFOpenSoundCraft 0.1.0 UAT1
+===========================
 
-This is a native AmigaOS 3.x 68040 release candidate of SoundCraft's compact
-MIDI-sequencer path.
+This is the UAT-ready native AmigaOS 3.x 68040 candidate for SoundCraft's
+compact MIDI-sequencer path.  It is not the final distributable RC yet.
 
 Working in this build:
 - native GFOpenLayout transport, track, timeline and inspector interface;
@@ -20,5 +20,12 @@ Not yet qualified:
 - desktop SoundCraft project compatibility;
 - ASL file requesters and GFOpenUp installation.
 
-RC promotion requires an independent Kitchen plate and fresh native 68040
-save/open/hostile-file receipt for the exact candidate.
+Verified for this exact candidate:
+- independent LumaVAULT Kitchen build and byte-identical local rebuild;
+- native 68040/FPU window, MIDI arm, save, reopen and clean close;
+- rejection of a three-byte hostile project without replacing live state;
+- graceful editing when gfopensynth.library is absent.
+
+RC promotion still requires an Installer script and an exact-candidate native
+audition run with gfopensynth.library installed.  See
+evidence/native-68040-uat1-20261122.txt for the full receipt.
