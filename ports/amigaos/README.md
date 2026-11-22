@@ -59,8 +59,36 @@ path passed with AmigaDOS `RC=0` in an isolated 68040/FPU lab on 20 November
 2026.  The receipt is in `evidence/native-68040-q1-20261120.txt`; it proves the
 library message path, not audible output.
 
-The port does not yet claim the egui interface, timed transport playback,
-audio clips, SMF file I/O, MIDI device I/O or session file I/O have been
-ported.  The next slices are the native window/event adapter, AHI render
-callback and CAMD MIDI queue.  Release candidates must use GFOpenRust's pinned
-patched compiler and pass on AmigaOS.
+The Q2 slice adds a native GFOpenLayout editor rather than attempting to carry
+the desktop egui stack onto the 68k.  It renders transport, track, timeline and
+inspector panels.  Play sends the bounded model's C4 note-on/note-off pair via
+GFOpenSynth, Stop resets the synth output, and MIDI arm updates the real session
+model.  All three controls and clean close were exercised in the isolated Team
+1 68040/FPU lab on 21 November 2026.  The exact receipt is in
+`evidence/native-68040-window-q2-20261121.txt`.
+
+The UAT1 slice adds bounded SCF1 persistence at `PROGDIR:SoundCraft.scf`.  Save and
+Open preserve the session, tracks, mix state, notes, controllers and MIDI arm
+state.  The parser rejects truncated, malformed, over-limit and trailing data
+without replacing the live project.  The exact Kitchen-built candidate passed
+native save, reopen, three-byte hostile-file rejection and clean close in an
+isolated 68040/FPU lab on 22 November 2026.  It also remains usable when
+`gfopensynth.library` is absent; Play reports that audition is unavailable
+instead of terminating.  The receipt is in
+`evidence/native-68040-uat1-20261122.txt`.
+
+The UAT2 package adds a generated Installer, application/drawer/ReadMe
+GlowIcons, licences and attribution.  The exact package passed Pretend, fresh
+install and update walks with Installer 47.19 in the Team 1 68040/FPU lab.  A
+97-byte `SoundCraft.scf` placed in the installed drawer retained its exact
+SHA-256 across the update.  The installed executable is byte-identical to the
+packaged executable.  See `evidence/native-68040-uat1-20261122.txt`.
+
+The port does not yet claim timed transport playback, audio clips, SMF file
+I/O, MIDI device I/O, AHI recording/rendering or CAMD queues.  The visible Add
+MIDI track button is disabled and labelled as the next slice.  Synth-present
+startup and note/reset message delivery now pass with the qualified
+GFOpenSynth library and SoundFont, but the muted lab cannot prove audible
+output.  UAT2 is therefore not promoted to RC yet.
+Release candidates must use GFOpenRust's pinned patched compiler and pass on
+AmigaOS.

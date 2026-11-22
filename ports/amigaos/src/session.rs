@@ -84,6 +84,8 @@ pub enum SessionError {
     TrackLimit,
     IdExhausted,
     MissingTrack,
+    InvalidTrackId,
+    DuplicateTrackId,
     OutOfMemory,
 }
 
@@ -96,6 +98,8 @@ impl fmt::Display for SessionError {
             Self::TrackLimit => "native session track limit reached",
             Self::IdExhausted => "session id space exhausted",
             Self::MissingTrack => "track does not exist",
+            Self::InvalidTrackId => "track id must be non-zero",
+            Self::DuplicateTrackId => "track id already exists",
             Self::OutOfMemory => "not enough memory for session data",
         })
     }
@@ -148,6 +152,32 @@ impl Session {
         self.tracks.push(Track { id, name, kind, muted: false, solo: false, record_armed: false });
         self.next_id = next_id;
         Ok(id)
+    }
+
+    pub fn restore_track(
+        &mut self,
+        id: TrackId,
+        name: &str,
+        kind: TrackKind,
+        muted: bool,
+        solo: bool,
+        record_armed: bool,
+    ) -> Result<(), SessionError> {
+        if id.0 == 0 {
+            return Err(SessionError::InvalidTrackId);
+        }
+        if self.tracks.len() >= MAX_TRACKS {
+            return Err(SessionError::TrackLimit);
+        }
+        if self.track(id).is_some() {
+            return Err(SessionError::DuplicateTrackId);
+        }
+        let next_id = id.0.checked_add(1).ok_or(SessionError::IdExhausted)?;
+        let name = copy_name(name)?;
+        self.tracks.try_reserve_exact(1).map_err(|_| SessionError::OutOfMemory)?;
+        self.tracks.push(Track { id, name, kind, muted, solo, record_armed });
+        self.next_id = self.next_id.max(next_id);
+        Ok(())
     }
 
     pub fn rename_track(&mut self, id: TrackId, name: &str) -> Result<(), SessionError> {
@@ -234,6 +264,21 @@ mod tests {
         assert_eq!(session.add_track("Three", TrackKind::Audio), Ok(TrackId(3)));
         let ids: Vec<_> = session.tracks().iter().map(Track::id).collect();
         assert_eq!(ids, [TrackId(2), TrackId(3)]);
+        Ok(())
+    }
+
+    #[test]
+    fn restored_ids_and_mix_state_survive_and_advance_allocation() -> Result<(), SessionError> {
+        let mut session = test_session()?;
+        assert_eq!(session.restore_track(TrackId(7), "Lead", TrackKind::Instrument, true, false, true), Ok(()));
+        let lead = session.track(TrackId(7));
+        assert_eq!(lead.map(Track::name), Some("Lead"));
+        assert_eq!(lead.map(Track::kind), Some(TrackKind::Instrument));
+        assert_eq!(lead.map(Track::is_muted), Some(true));
+        assert_eq!(lead.map(Track::is_record_armed), Some(true));
+        assert_eq!(session.add_track("Next", TrackKind::Midi), Ok(TrackId(8)));
+        assert_eq!(session.restore_track(TrackId(7), "Again", TrackKind::Midi, false, false, false), Err(SessionError::DuplicateTrackId));
+        assert_eq!(session.restore_track(TrackId(0), "Zero", TrackKind::Midi, false, false, false), Err(SessionError::InvalidTrackId));
         Ok(())
     }
 
