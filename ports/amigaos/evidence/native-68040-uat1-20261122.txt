@@ -76,8 +76,8 @@ and the status to "Sent note on/off through GFOpenSynth", and the window closed
 cleanly back to Workbench.
 
 Synth-present startup and message delivery are therefore qualified.  This run
-does not establish that audio was audible outside the muted lab, and the
-Installer remains a separate release gate.
+does not establish that audio was audible outside the muted lab.  The
+Installer was a separate gate for that run and is qualified below.
 
 Installer-ready UAT2 follow-up
 ------------------------------
@@ -103,6 +103,31 @@ PROGDIR: so an installed application keeps its session beside itself.
 - clean close returned to Workbench; the lab was stopped and test drawer moved
   into its recoverable archive
 
-The real Installer itself still needs the fresh-install/update/Pretend native
-walk before this can be promoted from UAT to RC.  Audible output also remains
-unproved in the muted lab.
+Installer UAT2 follow-up
+------------------------
+The exact UAT2 archive was unpacked into the stopped Team 1 lab.  The lab's
+base image has no Installer, so Installer 47.19 was copied read-only from the
+qualified Team 3 OpenInstaller lab into the Team 1 test drawer only:
+
+- Installer 47.19 SHA-256:
+  e61343e2e801477e8697a5e779c14294397b3e073c16fdaa629e4068e8d7638c
+- no Team 3 file or lab state was changed
+
+The native Installer walk then passed:
+
+1. Pretend ran from the unpacked archive and selected the default
+   SYS:Utilities destination.  The Installer exercised every copy step, then
+   exited with neither `SYS:Utilities/SoundCraft` nor its drawer icon present.
+2. Fresh install created the drawer and icon.  The installed 31,984-byte Hunk
+   matched the packaged executable exactly at SHA-256
+   6bae765e385d9767a2e578fd922ec1a48f323adcbfeee75f6ee02bff0a6bee52.
+3. A valid 97-byte SoundCraft.scf fixture with SHA-256
+   4ff544fc4dc57d9b04b5c621e79095538a64d0ded33a65037129e17301072445
+   was placed in the installed drawer.  The update copied the application,
+   icons, ReadMe, licences and attribution but omitted SoundCraft.scf.  Its
+   size, timestamp and SHA-256 were unchanged after the update.
+4. The lab was stopped cleanly after the checks.
+
+The Installer gate is now qualified.  UAT2 still is not an RC: audible output
+outside the muted lab is unproved, Forge CI remains red, and the exact Kitchen
+package job cannot emit its LhA until the os32 stove provides `lha`.

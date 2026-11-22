@@ -1,4 +1,4 @@
-GFOpenSoundCraft 0.1.0 UAT1
+GFOpenSoundCraft 0.1.0 UAT2
 ===========================
 
 This is the UAT-ready native AmigaOS 3.x 68040 candidate for SoundCraft's
@@ -12,21 +12,26 @@ Working in this build:
 - bounded SCF1 Save and Open at PROGDIR:SoundCraft.scf;
 - stable track IDs, track mix state, notes and controller events in SCF1;
 - fail-closed parsing for truncated, malformed, over-limit and trailing data.
+- generated Installer and application/drawer/ReadMe GlowIcons.
 
 Not yet qualified:
 - timed transport and editing beyond the supplied sequence;
 - CAMD device recording;
 - AHI audio recording, mixing and rendering;
 - desktop SoundCraft project compatibility;
-- ASL file requesters and GFOpenUp installation.
+- ASL file requesters and GFOpenUp installation;
+- audible output outside the muted qualification lab.
 
 Verified for this exact candidate:
-- independent LumaVAULT Kitchen build and byte-identical local rebuild;
+- exact-head LumaVAULT Kitchen tests, clippy and native compile (the archive
+  step stopped only because the os32 stove currently lacks `lha`);
+- byte-verified local UAT2 LhA package;
 - native 68040/FPU window, MIDI arm, save, reopen and clean close;
 - rejection of a three-byte hostile project without replacing live state;
-- graceful editing when gfopensynth.library is absent.
+- graceful editing when gfopensynth.library is absent;
+- synth-present startup and GFOpenSynth note/reset message delivery;
+- Installer 47.19 Pretend, fresh install and project-preserving update paths.
 
-RC promotion still requires an Installer script.  An exact-candidate run with
-the previously qualified gfopensynth.library installed blocked before the
-editor appeared, so synth-present startup is also an active RC blocker.  See
-evidence/native-68040-uat1-20261122.txt for the full receipt.
+RC promotion still requires audible output proof outside the muted lab and a
+green release build/CI receipt.  See
+`evidence/native-68040-uat1-20261122.txt` for the full receipt.
