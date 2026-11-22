@@ -39,7 +39,7 @@ struct SoundEditor<'runtime> {
     session: Session,
     sequence: Sequence,
     midi_track: TrackId,
-    output: amiga_gfopensynth::Synth<'runtime>,
+    output: Option<amiga_gfopensynth::Synth<'runtime>>,
     title: &'static core::ffi::CStr,
     status: &'static core::ffi::CStr,
     auditioned: bool,
@@ -128,16 +128,26 @@ impl amiga_gfopenlayout::EventSink for SoundEditor<'_> {
                 let Ok(messages) = synth::note_messages(note) else {
                     return false;
                 };
-                self.output.send_short(messages[0].message);
-                self.output.send_short(messages[1].message);
-                self.title = c"SoundCraft - Auditioned C4";
-                self.status = c"Sent note on/off through GFOpenSynth";
-                self.auditioned = true;
+                if let Some(output) = self.output.as_mut() {
+                    output.send_short(messages[0].message);
+                    output.send_short(messages[1].message);
+                    self.title = c"SoundCraft - Auditioned C4";
+                    self.status = c"Sent note on/off through GFOpenSynth";
+                    self.auditioned = true;
+                } else {
+                    self.title = c"SoundCraft - Synth unavailable";
+                    self.status = c"Install gfopensynth.library to audition; editing remains available";
+                }
             }
             3 => {
-                self.output.reset();
-                self.title = c"SoundCraft - Stopped";
-                self.status = c"Reset the native synthesiser output";
+                if let Some(output) = self.output.as_mut() {
+                    output.reset();
+                    self.title = c"SoundCraft - Stopped";
+                    self.status = c"Reset the native synthesiser output";
+                } else {
+                    self.title = c"SoundCraft - Synth unavailable";
+                    self.status = c"No native synthesiser output is open";
+                }
                 self.auditioned = false;
             }
             4 => {
@@ -211,18 +221,19 @@ pub extern "C" fn gf_amiga_main(_args: *const u8, _length: i32) -> i32 {
         let Ok(messages) = synth::note_messages(note) else {
             return 20;
         };
-        let Ok(mut output) = amiga_gfopensynth::Synth::open(runtime) else {
-            runtime.put_str(c"GFOpenSynth unavailable\n");
-            return 20;
-        };
-        output.reset();
-        output.send_short(messages[0].message);
-        output.send_short(messages[1].message);
-        let Ok(silence) = synth::all_notes_off(0) else {
-            return 20;
-        };
-        output.send_short(silence);
-        runtime.put_str(c"synth adapter: GFOpenSynth message path ready\n");
+        let mut output = amiga_gfopensynth::Synth::open(runtime).ok();
+        if let Some(synth_output) = output.as_mut() {
+            synth_output.reset();
+            synth_output.send_short(messages[0].message);
+            synth_output.send_short(messages[1].message);
+            let Ok(silence) = synth::all_notes_off(0) else {
+                return 20;
+            };
+            synth_output.send_short(silence);
+            runtime.put_str(c"synth adapter: GFOpenSynth message path ready\n");
+        } else {
+            runtime.put_str(c"synth adapter: GFOpenSynth unavailable; editor remains available\n");
+        }
 
         if allocation_proof.len() != BINDINGS.len() || session.track_count() != 2 || session.sample_rate_hz() != 48_000 || midi.event_count() != 1 {
             return 20;
