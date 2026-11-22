@@ -5,7 +5,7 @@ set -eu
 here=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
 root=$(CDPATH= cd -- "$here/.." && pwd)
 out=${OUT:-"$root/build-amiga-package"}
-version=0.1.0-uat2
+version=0.1.0-rc1
 archive="GFOpenSoundCraft-${version}-68040"
 stage=$(mktemp -d "${TMPDIR:-/tmp}/gfopensoundcraft-package.XXXXXX")
 trap 'rm -rf "$stage"' EXIT HUP INT TERM
@@ -29,4 +29,4 @@ install -m 0644 "$stage/$archive.lha" "$out/$archive.lha"
 (cd "$out" && sha256sum "$archive.lha" > "$archive.lha.sha256")
 install -m 0644 "$root/ports/amigaos/RELEASE-NOTES.txt" "$out/$archive.readme"
 
-echo "GFOpenSoundCraft UAT package: $out/$archive.lha"
+echo "GFOpenSoundCraft RC package: $out/$archive.lha"
