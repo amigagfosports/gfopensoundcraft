@@ -22,7 +22,7 @@ Included
 - GFOpenSynth reset, note-on, note-off and all-notes-off smoke path
 - native GFOpenLayout editor with track, timeline and inspector panels
 - working Play note, Stop and MIDI record-arm controls
-- bounded SCF1 Save and Open at SYS:SoundCraft.scf
+- bounded SCF1 Save and Open at PROGDIR:SoundCraft.scf
 
 The Play note control sends a bounded C4 note-on/note-off pair immediately;
 it is not timed transport playback. Add MIDI track is visibly marked as the

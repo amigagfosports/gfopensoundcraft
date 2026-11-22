@@ -67,7 +67,7 @@ model.  All three controls and clean close were exercised in the isolated Team
 1 68040/FPU lab on 21 November 2026.  The exact receipt is in
 `evidence/native-68040-window-q2-20261121.txt`.
 
-The UAT1 slice adds bounded SCF1 persistence at `SYS:SoundCraft.scf`.  Save and
+The UAT1 slice adds bounded SCF1 persistence at `PROGDIR:SoundCraft.scf`.  Save and
 Open preserve the session, tracks, mix state, notes, controllers and MIDI arm
 state.  The parser rejects truncated, malformed, over-limit and trailing data
 without replacing the live project.  The exact Kitchen-built candidate passed

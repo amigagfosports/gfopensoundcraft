@@ -9,7 +9,7 @@ Working in this build:
 - bounded session and 960 PPQ MIDI models;
 - Play audition and Stop/reset through GFOpenSynth and AkikoPlus OpenSynth;
 - MIDI record-arm state;
-- bounded SCF1 Save and Open at SYS:SoundCraft.scf;
+- bounded SCF1 Save and Open at PROGDIR:SoundCraft.scf;
 - stable track IDs, track mix state, notes and controller events in SCF1;
 - fail-closed parsing for truncated, malformed, over-limit and trailing data.
 
