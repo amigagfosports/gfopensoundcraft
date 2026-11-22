@@ -78,3 +78,31 @@ cleanly back to Workbench.
 Synth-present startup and message delivery are therefore qualified.  This run
 does not establish that audio was audible outside the muted lab, and the
 Installer remains a separate release gate.
+
+Installer-ready UAT2 follow-up
+------------------------------
+Commit f8d4456741250b730b13dfce53ce0e383db27b15 adds the native Installer,
+GlowIcons and package build, and changes the project path from SYS: to
+PROGDIR: so an installed application keeps its session beside itself.
+
+- package: GFOpenSoundCraft-0.1.0-uat2-68040.lha
+- package: 39,367 bytes, SHA-256
+  73a4c1224b832b9bcb0d0e081a805b8dd6a451a113523fbcfd3eb7eedf5ac5a6
+- archive listing: drawer icon, Installer script and icon, SoundCraft drawer,
+  program and ReadMe GlowIcons, licences, attribution and 31,984-byte native
+  executable
+- generated Installer and icon files reproduced byte-for-byte from current
+  AmiCradle main e3acc8c239ea8565fd5faaf684866e05da0c0bd2
+- host gate: generated-file comparison, 20/20 tests, clippy, native Hunk gate,
+  package checksum and LhA listing passed
+- native Team 1 lab: the packaged executable opened from
+  SYS:UAT2/SoundCraft, Arm MIDI and Save succeeded, and the 97-byte file was
+  created at PROGDIR:SoundCraft.scf with SHA-256
+  4ff544fc4dc57d9b04b5c621e79095538a64d0ded33a65037129e17301072445;
+  the older SYS:SoundCraft.scf was unchanged
+- clean close returned to Workbench; the lab was stopped and test drawer moved
+  into its recoverable archive
+
+The real Installer itself still needs the fresh-install/update/Pretend native
+walk before this can be promoted from UAT to RC.  Audible output also remains
+unproved in the muted lab.
