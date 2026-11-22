@@ -4,8 +4,10 @@ GFOpenSoundCraft 0.1.0 native qualification build for AmigaOS 3.x
 STATUS: UAT-READY CANDIDATE; NOT YET A DISTRIBUTABLE RELEASE CANDIDATE. Native
 GFOpenLayout rendering, bounded control events, SCF1 save/open, hostile-file
 rejection, missing-synth degradation and clean exit passed in an isolated
-68040 lab on 22 November 2026. An Installer and exact-candidate synth audition
-remain release gates.
+68040 lab on 22 November 2026. An Installer remains a release gate.  A
+follow-up exact-candidate run with the previously qualified synth library
+blocked before the editor appeared, so synth-present startup is an active
+release blocker.
 
 Requirements
 ------------

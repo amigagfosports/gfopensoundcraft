@@ -79,8 +79,9 @@ instead of terminating.  The receipt is in
 
 The port does not yet claim timed transport playback, audio clips, SMF file
 I/O, MIDI device I/O, AHI recording/rendering or CAMD queues.  The visible Add
-MIDI track button is disabled and labelled as the next slice.  Audible
-GFOpenSynth/AkikoPlus playback for this exact candidate still needs a lab with
-the library installed, and the distributable still needs an Installer script.
+MIDI track button is disabled and labelled as the next slice.  A follow-up run
+with the previously qualified GFOpenSynth library installed blocked before
+the editor appeared, making synth-present startup an active RC blocker.  The
+distributable also still needs an Installer script.
 Release candidates must use GFOpenRust's pinned patched compiler and pass on
 AmigaOS.

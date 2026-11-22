@@ -48,3 +48,21 @@ close.  It does not claim audible playback or AkikoPlus selection: those need
 a separate native run with gfopensynth.library installed.  The current plate
 also has no Installer script, so it is a UAT-ready candidate rather than a
 finished distributable RC.
+
+Follow-up synth-present run
+---------------------------
+After the UAT above, the previously qualified `gfopensynth.library` and Basic
+SoundFont from the 20 November Q1 receipt were installed into the same lab:
+
+- gfopensynth.library SHA-256:
+  f984bc4effdb2612daff6766c65b7baef90ea1a1e709b0ae5ef86e4507899845
+- basic.sf2 SHA-256:
+  9328c94e6682f2c2590371324e2a9503f01b5ed65b4706741929d074cc54a1c6
+
+Launching the exact candidate then failed before its editor window appeared.
+The agent remained inside SoundCraft for more than 50 seconds with no program
+output, and the RTG screen stayed on the system's black engineers backdrop.
+The lab had to be stopped.  The library and SoundFont were renamed to disabled
+test files before restarting the scratch lab.  Therefore synth-present startup
+is a reproduced RC blocker; this run does not qualify audition or audible
+output.
