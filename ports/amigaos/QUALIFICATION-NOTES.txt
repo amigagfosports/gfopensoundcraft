@@ -34,12 +34,15 @@ device I/O are not claimed.
 Qualification receipt
 ---------------------
 - GFOpenRust revision: 7a3e3e1523e6233311fc30dc2f5a8bc51f6291e5
-- application/package source: c6009c7ca0090a6f56e92d10dbce4c51244c2a15
-- Kitchen job: j20261122T081348-fa9f06 (tests, clippy and native compile
-  passed; archive step could not run because the os32 stove lacks lha)
+- application/package source: b0558334d95418b81a2c76f6459951b38ffaf856
+- pre-RC Kitchen job j20261122T081348-fa9f06 passed tests, clippy and the
+  native compile before lha became available on the os32 stove
 - the merged UAT2 source rebuilt and packaged in LumaVAULT Kitchen job
   j20261122T142449-68cfab: exit 0, 20/20 tests, clippy, native Hunk and LhA
-- RC1 package receipt: recorded after the RC branch is cooked
+- RC1 Kitchen job j20261122T144455-e05e0b: exit 0, 20/20 tests, clippy,
+  native Hunk and LhA
+- RC1 package: GFOpenSoundCraft-0.1.0-rc1-68040.lha, 39,510 bytes,
+  SHA-256 194fda0044d2d92ecd7773985b2e0241ca4a0fcdd4d6cedf666908e4a8f2a00d
 - Hunk SHA-256: 6bae765e385d9767a2e578fd922ec1a48f323adcbfeee75f6ee02bff0a6bee52
 - Lab: t1-soundcraft-20261122 (isolated Team 1 scratch copy, 68040/FPU)
 - Result: window rendered; MIDI arm, save and reopen changed/restored live
